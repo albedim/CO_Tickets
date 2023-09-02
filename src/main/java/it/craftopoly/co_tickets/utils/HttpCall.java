@@ -3,6 +3,7 @@ package it.craftopoly.co_tickets.utils;
 import com.google.gson.*;
 import it.craftopoly.co_tickets.CO_Tickets;
 import it.craftopoly.co_tickets.schema.TicketCreationSchema;
+import it.craftopoly.co_tickets.schema.TicketMessageCreationSchema;
 
 public class HttpCall
 {
@@ -22,6 +23,27 @@ public class HttpCall
             return CO_Tickets.getInstance().getConfig().getString("messages.ticket_already_open");
 
         return CO_Tickets.getInstance().getConfig().getString("messages.ticket_creation_success");
+    }
+
+    public static String comment(String uuid, String ticketId, String message)
+    {
+        JsonObject res = HttpUtils.post(
+                "/tickets/messages/?platform=mcserver",
+                uuid,
+                new TicketMessageCreationSchema(Integer.parseInt(ticketId), message),
+                JsonObject.class
+        ).getAsJsonObject();
+
+        if(res.get("code").getAsInt() != 422 && res.get("code").getAsInt() != 200 && res.get("code").getAsInt() != 403)
+            return CO_Tickets.getInstance().getConfig().getString("messages.ticket_message_creation_failed");
+
+        if(res.get("code").getAsInt() == 422)
+            return CO_Tickets.getInstance().getConfig().getString("messages.ticket_closed");
+
+        if(res.get("code").getAsInt() == 403)
+            return CO_Tickets.getInstance().getConfig().getString("messages.no_enough_permissions");
+
+        return CO_Tickets.getInstance().getConfig().getString("messages.ticket_message_creation_success");
     }
 
     public static JsonArray getTicketList(String page, String username)

@@ -15,6 +15,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
+
 public class TicketExecutor implements CommandExecutor
 {
     @Override
@@ -98,6 +100,15 @@ public class TicketExecutor implements CommandExecutor
                                     TextComponent textComponent = getMessageTextComponent(message);
                                     player.spigot().sendMessage(textComponent);
                                 });
+                                if(ticket.get("open").getAsBoolean()) {
+                                    TextComponent[] ticketActions = getTicketActionComponent(ticket.get("ticket_id").getAsInt());
+                                    player.sendMessage(" ");
+                                    player.spigot().sendMessage(
+                                            ticketActions[0],
+                                            Utils.createEmptyInteractiveMessage("     "),
+                                            ticketActions[1]
+                                    );
+                                }
                                 player.sendMessage("§8-------------------------------------");
                             }
 
@@ -149,6 +160,25 @@ public class TicketExecutor implements CommandExecutor
                                     ticketId
                             );
                             player.sendMessage(ticketClosed);
+                        } else {
+                            player.sendMessage(
+                                    CO_Tickets
+                                            .getInstance()
+                                            .getConfig()
+                                            .getString("messages.wrong_command_use")
+                            );
+                        }
+                        break;
+                    case "comment":
+                        if(args.length >= 3) {
+                            String ticketId = args[1];
+                            String message = String.join(" ", Arrays.copyOfRange(args, 2, args.length));
+                            String ticketCommented = HttpCall.comment(
+                                    player.getUniqueId().toString(),
+                                    ticketId,
+                                    message
+                            );
+                            player.sendMessage(ticketCommented);
                         } else {
                             player.sendMessage(
                                     CO_Tickets
@@ -218,7 +248,7 @@ public class TicketExecutor implements CommandExecutor
         );
         TextComponent message = Utils.createInteractiveMessage(
                 "§7" +
-                        ticket.get("message").getAsString() + "\n§8✉ " +
+                        ticket.get("message_owner").getAsString() + " §8➜ §7" + ticket.get("message").getAsString() + "\n§8✉ " +
                         DateUtils.formatDate(
                             DateUtils.fixDate(
                                     ticket.get("created_on").getAsString().split(" ")[0]
@@ -238,6 +268,23 @@ public class TicketExecutor implements CommandExecutor
         return new TextComponent[] { status, ticketId, message };
     }
 
+    private static TextComponent[] getTicketActionComponent(Integer ticketId)
+    {
+        TextComponent comment = Utils.createInteractiveMessage(
+                "§7Commenta questo ticket",
+                ClickEvent.Action.SUGGEST_COMMAND,
+                "  §a[Commenta]",
+                "/ticket comment " + ticketId + " "
+        );
+        TextComponent close = Utils.createInteractiveMessage(
+                "§7Chiudi questo ticket",
+                ClickEvent.Action.RUN_COMMAND,
+                "§c[Chiudi]",
+                "/ticket close " + ticketId
+        );
+        return new TextComponent[] { comment, close };
+    }
+
     private static TextComponent[] getAllTicketTextComponent(JsonObject ticket)
     {
         TextComponent status = Utils.createEmptyInteractiveMessage(
@@ -249,12 +296,12 @@ public class TicketExecutor implements CommandExecutor
                 "§7Clicca per visualizzare questo ticket",
                 ClickEvent.Action.RUN_COMMAND,
                 "§7#"+ticket.get("ticket_id") + ": " +
-                        ticket.get("owner").getAsJsonObject().get("username").getAsString() + " §8➜ ",
+                        ticket.get("owner").getAsJsonObject().get("username").getAsString() + " §8▪ ",
                 "/ticket info "+ticket.get("ticket_id")
         );
         TextComponent message = Utils.createInteractiveMessage(
                 "§7" +
-                        ticket.get("message").getAsString() + "\n§8✉ " +
+                        ticket.get("message_owner").getAsString() + " §8➜ §7" + ticket.get("message").getAsString() + "\n§8✉ " +
                         DateUtils.formatDate(
                                 DateUtils.fixDate(
                                         ticket.get("created_on").getAsString().split(" ")[0]
