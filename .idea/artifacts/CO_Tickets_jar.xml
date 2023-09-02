@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="CO_Tickets:jar">
+    <output-path>$PROJECT_DIR$/../../../MinecraftServer/plugins</output-path>
+    <root id="archive" name="CO_Tickets.jar">
+      <element id="module-output" name="CO_Tickets" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/plugin.yml" />
+    </root>
+  </artifact>
+</component>

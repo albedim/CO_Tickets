@@ -1,0 +1,7 @@
+name: CO_Tickets
+version: '${project.version}'
+main: it.craftopoly.co_tickets.CO_Tickets
+api-version: 1.20
+commands:
+  ticket:
+    aliases: []
