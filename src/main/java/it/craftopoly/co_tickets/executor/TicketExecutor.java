@@ -54,6 +54,7 @@ public class TicketExecutor implements CommandExecutor
                             return false;
                         }
                         break;
+
                     case "list":
 
                         String ticketListpage = args.length == 2 ? args[1] : "1";
@@ -78,6 +79,7 @@ public class TicketExecutor implements CommandExecutor
 
                         player.sendMessage("§8-------------------------------------");
                         break;
+
                     case "info":
                         if (args.length == 2 || args.length == 3) {
 
@@ -106,6 +108,7 @@ public class TicketExecutor implements CommandExecutor
                                     TextComponent textComponent = getMessageTextComponent(message);
                                     player.spigot().sendMessage(textComponent);
                                 });
+
                                 if(ticket.get("open").getAsBoolean()) {
                                     TextComponent[] ticketActions = getTicketActionComponent(ticket.get("ticket_id").getAsInt());
                                     player.sendMessage(" ");
@@ -127,6 +130,7 @@ public class TicketExecutor implements CommandExecutor
                             );
                         }
                         break;
+
                     case "all":
 
                         String allTicketsPage = args.length == 2 ? args[1] : "1";
@@ -141,10 +145,7 @@ public class TicketExecutor implements CommandExecutor
                             JsonArray allTickets = ((JsonObject) allTicketsResponse).get("param").getAsJsonArray();
 
                             player.sendMessage("§8-------------------------------------");
-                            Utils.sendMessage(
-                                    player,
-                                    "§a§lTickets    §8(§7Pagina §a" + allTicketsPage + "§8)__"
-                            );
+                            Utils.sendMessage(player, "§a§lTickets    §8(§7Pagina §a" + allTicketsPage + "§8)__");
                             allTickets.forEach(e -> {
                                 JsonObject ticket = e.getAsJsonObject();
                                 TextComponent[] textComponents = getAllTicketTextComponent(ticket);
@@ -157,6 +158,7 @@ public class TicketExecutor implements CommandExecutor
                             player.sendMessage("§8-------------------------------------");
                         }
                         break;
+
                     case "close":
 
                         if(args.length == 2) {
@@ -175,6 +177,7 @@ public class TicketExecutor implements CommandExecutor
                             );
                         }
                         break;
+
                     case "comment":
                         if(args.length >= 3) {
                             String ticketId = args[1];
