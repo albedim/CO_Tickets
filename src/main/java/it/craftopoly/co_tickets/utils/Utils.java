@@ -29,15 +29,21 @@ public class Utils
         }
     }
 
-    public static boolean isUsernamePremium(String username) throws IOException, MalformedURLException {
-        URL url = new URL("https://api.mojang.com/users/profiles/minecraft/"+username);
-        BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-        String line;
-        StringBuilder result = new StringBuilder();
-        while ((line = in.readLine())!=null){
-            result.append(line);
+    public static boolean isUsernamePremium(String username) {
+        try {
+            URL url = new URL("https://api.mojang.com/users/profiles/minecraft/"+username);
+            BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+            String line;
+            StringBuilder result = new StringBuilder();
+            while ((line = in.readLine())!=null){
+                result.append(line);
+            }
+            return !result.toString().equals("");
+        } catch (MalformedURLException e) {
+            return false;
+        } catch (IOException e) {
+            return false;
         }
-        return !result.toString().equals("");
     }
 
     public static void sendMessage(Player player, String message)

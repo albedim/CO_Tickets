@@ -12,7 +12,7 @@ messages:
   ticket_message_creation_failed: " §cNon è stato possibile aggiungere un commento a questo ticket."
   ticket_message_creation_success: " §aHai aggiunto correttamente un commento a questo ticket"
   ticket_closed: " §cQuesto ticket è chiuso."
-  ticket_commented: " §aIl ticket §7{ticketId} §aè stato appena commentato."
+  ticket_commented: " §aIl ticket §7#{ticketId} §aè stato appena commentato."
   no_enough_permissions: " §cNon hai abbastanza permessi per eseguire questo comando."
 settings:
   api_url: http://localhost:5000/api/v1
