@@ -35,7 +35,12 @@ public class TicketExecutor implements CommandExecutor
                             String response = HttpCall.create(player.getUniqueId().toString(), message);
 
                             if(Utils.isSuccess(response))
-                                sendMessageToStaff(player.getName());
+                                sendMessageToStaff(
+                                        CO_Tickets.getInstance().getConfig().getString(
+                                                "messages.ticket_created")
+                                        .replace("{username}", player.getName()),
+                                        player.getName()
+                                );
 
                             player.sendMessage(response);
 
@@ -179,6 +184,14 @@ public class TicketExecutor implements CommandExecutor
                                     ticketId,
                                     message
                             );
+
+                            if(Utils.isSuccess(ticketCommented))
+                                sendMessageToStaff(
+                                        CO_Tickets.getInstance().getConfig().getString(
+                                                        "messages.ticket_commented")
+                                                .replace("{ticketId}", ticketId),
+                                        player.getName()
+                                );
                             player.sendMessage(ticketCommented);
                         } else {
                             player.sendMessage(
@@ -214,7 +227,7 @@ public class TicketExecutor implements CommandExecutor
         return false;
     }
 
-    private static void sendMessageToStaff(String username)
+    private static void sendMessageToStaff(String message, String username)
     {
         JsonArray staffers = HttpCall.getStaffers();
         staffers.forEach(e -> {
@@ -223,15 +236,12 @@ public class TicketExecutor implements CommandExecutor
             if(player != null)
                 if(player.isOnline())
                 {
-                    player.sendMessage(
-                            CO_Tickets.getInstance().getConfig().getString(
-                                    "messages.ticket_created")
-                                    .replace("{username}", username)
-                    );
+                    player.sendMessage(message);
                     player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 300, 300);
                 }
         });
     }
+
     @Deprecated
     private static void sendMessageToPlayer(String username)
     {

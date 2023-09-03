@@ -1,7 +1,7 @@
 messages:
   tutorial: "§a§lTickets__§8▪ §7Crea un ticket: §a/ticket create <messaggio>_§8▪ §7I tuoi tickets: §a/ticket list <pagina>_§8▪ §7Chiudi un ticket: §a/ticket close <ticketId>_§8▪ §7Commenta un ticket: §a/ticket comment <ticketId> <messaggio>_§8▪ §7Visualizza un ticket: §a/ticket info <ticketId>_"
   wrong_command_use: " §cUso scorretto del comando."
-  ticket_created: " §a{username} ha appena creato un ticket."
+  ticket_created: " §7{username} §aha appena creato un ticket."
   ticket_creation_failed: " §cErrore durante la creazione del ticket, riprova."
   ticket_creation_success: " §aTicket creato con successo!"
   ticket_already_closed: " §cQuesto ticket è già stato chiuso"
@@ -12,6 +12,7 @@ messages:
   ticket_message_creation_failed: " §cNon è stato possibile aggiungere un commento a questo ticket."
   ticket_message_creation_success: " §aHai aggiunto correttamente un commento a questo ticket"
   ticket_closed: " §cQuesto ticket è chiuso."
+  ticket_commented: " §aIl ticket §7{ticketId} §aè stato appena commentato."
   no_enough_permissions: " §cNon hai abbastanza permessi per eseguire questo comando."
 settings:
   api_url: http://localhost:5000/api/v1
