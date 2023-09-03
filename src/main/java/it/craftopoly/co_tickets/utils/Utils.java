@@ -17,7 +17,7 @@ public class Utils
 {
     public static boolean isSuccess(String message)
     {
-        return message.startsWith("§a");
+        return message.trim().startsWith("§a");
     }
 
     public static String convertObjectToJson(Object obj) {

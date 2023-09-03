@@ -14,6 +14,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.w3c.dom.Text;
 
 import java.util.Arrays;
 
@@ -216,7 +217,6 @@ public class TicketExecutor implements CommandExecutor
     private static void sendMessageToStaff(String username)
     {
         JsonArray staffers = HttpCall.getStaffers();
-
         staffers.forEach(e -> {
             JsonObject staffer = e.getAsJsonObject();
             Player player = Bukkit.getPlayerExact(staffer.get("username").getAsString());
@@ -231,6 +231,20 @@ public class TicketExecutor implements CommandExecutor
                     player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 300, 300);
                 }
         });
+    }
+    @Deprecated
+    private static void sendMessageToPlayer(String username)
+    {
+        Player player = Bukkit.getPlayerExact(username);
+
+        if(player != null)
+            if(player.isOnline())
+            {
+                player.sendMessage(
+                        CO_Tickets.getInstance().getConfig().getString(
+                        "messages.ticket_news_notification"));
+                player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 300, 300);
+            }
     }
 
     private static TextComponent[] getTicketListTextComponent(JsonObject ticket)
