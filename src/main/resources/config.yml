@@ -1,5 +1,5 @@
 messages:
-  tutorial: "§a§lTickets__§8▪ §7Crea un ticket: §a/ticket create <messaggio>_§8▪ §7I tuoi tickets: §a/ticket list <pagina>_§8▪ §7Chiudi un ticket: §a/ticket close <ticketId>_§8▪ §7Commenta un ticket: §a/ticket comment <ticketId> <messaggio>_§8▪ §7Visualizza un ticket: §a/ticket info <ticketId>_"
+  tutorial: "§a§lTickets\n\n\n§8▪ §7Crea un ticket: §a/ticket create <messaggio>\n§8▪ §7I tuoi tickets: §a/ticket list <pagina>\n§8▪ §7Chiudi un ticket: §a/ticket close <ticketId>\n§8▪ §7Commenta un ticket: §a/ticket comment <ticketId> <messaggio>\n§8▪ §7Visualizza un ticket: §a/ticket info <ticketId>\n"
   wrong_command_use: " §cUso scorretto del comando."
   ticket_created: " §7{username} §aha appena creato un ticket."
   ticket_creation_failed: " §cErrore durante la creazione del ticket, riprova."

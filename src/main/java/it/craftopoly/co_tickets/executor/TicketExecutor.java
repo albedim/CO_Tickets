@@ -38,8 +38,7 @@ public class TicketExecutor implements CommandExecutor
                                 sendMessageToStaff(
                                         CO_Tickets.getInstance().getConfig().getString(
                                                 "messages.ticket_created")
-                                        .replace("{username}", player.getName()),
-                                        player.getName()
+                                        .replace("{username}", player.getName())
                                 );
 
                             player.sendMessage(response);
@@ -61,11 +60,7 @@ public class TicketExecutor implements CommandExecutor
                         JsonArray ticketList = HttpCall.getTicketList(ticketListpage, player.getName());
 
                         player.sendMessage("§8-------------------------------------");
-
-                        Utils.sendMessage(
-                                player,
-                                "§a§lTickets    §8(§7Pagina §a" + ticketListpage + "§8)__"
-                        );
+                        player.sendMessage("§a§lTickets    §8(§7Pagina §a" + ticketListpage + "§8)\n\n");
 
                         ticketList.forEach((e) -> {
                             JsonObject ticket = e.getAsJsonObject();
@@ -94,12 +89,8 @@ public class TicketExecutor implements CommandExecutor
                                 JsonObject ticket = ((JsonObject) ticketResponse).get("param").getAsJsonObject();
 
                                 player.sendMessage("§8-------------------------------------");
-                                Utils.sendMessage(player,
-                                        "§a§lTicket §7#" +
-                                                ticket.get("ticket_id") +
-                                                "    §8(§7Pagina §a" + page + "§8)"
-                                );
-                                Utils.sendMessage(player, getTicketInfoTextComponent(ticket));
+                                player.sendMessage("§a§lTicket §7#" + ticket.get("ticket_id") + "    §8(§7Pagina §a" + page + "§8)");
+                                player.sendMessage(getTicketInfoTextComponent(ticket));
                                 player.sendMessage(" ");
 
                                 JsonArray messages = ticket.get("messages").getAsJsonArray();
@@ -145,7 +136,8 @@ public class TicketExecutor implements CommandExecutor
                             JsonArray allTickets = ((JsonObject) allTicketsResponse).get("param").getAsJsonArray();
 
                             player.sendMessage("§8-------------------------------------");
-                            Utils.sendMessage(player, "§a§lTickets    §8(§7Pagina §a" + allTicketsPage + "§8)__");
+                            player.sendMessage("§a§lTickets    §8(§7Pagina §a" + allTicketsPage + "§8)\n\n");
+
                             allTickets.forEach(e -> {
                                 JsonObject ticket = e.getAsJsonObject();
                                 TextComponent[] textComponents = getAllTicketTextComponent(ticket);
@@ -192,8 +184,7 @@ public class TicketExecutor implements CommandExecutor
                                 sendMessageToStaff(
                                         CO_Tickets.getInstance().getConfig().getString(
                                                         "messages.ticket_commented")
-                                                .replace("{ticketId}", ticketId),
-                                        player.getName()
+                                                .replace("{ticketId}", ticketId)
                                 );
                             player.sendMessage(ticketCommented);
                         } else {
@@ -216,8 +207,7 @@ public class TicketExecutor implements CommandExecutor
                 }
             }else{
                 player.sendMessage("§8-------------------------------------");
-                Utils.sendMessage(
-                        player,
+                player.sendMessage(
                         CO_Tickets
                                 .getInstance()
                                 .getConfig()
@@ -230,7 +220,7 @@ public class TicketExecutor implements CommandExecutor
         return false;
     }
 
-    private static void sendMessageToStaff(String message, String username)
+    private static void sendMessageToStaff(String message)
     {
         JsonArray staffers = HttpCall.getStaffers();
         staffers.forEach(e -> {
@@ -351,8 +341,8 @@ public class TicketExecutor implements CommandExecutor
     private static String getTicketInfoTextComponent(JsonObject ticket) {
 
         String status = (ticket.get("open").getAsBoolean() ?
-            "§aAperto_" :
-            "§cChiuso_"
+            "§aAperto\n" :
+            "§cChiuso\n"
         );
 
         String createdOn = (DateUtils.fixDate(
@@ -366,7 +356,7 @@ public class TicketExecutor implements CommandExecutor
                     ticket.get("created_on")
                         .getAsString()
                         .split(" ")[1]
-                        .split(":")[1] + "_"
+                        .split(":")[1] + "\n"
             )
         );
 
@@ -391,7 +381,7 @@ public class TicketExecutor implements CommandExecutor
 
         return (
                 " §8▪ §7Stato: " + status +
-                " §8▪ §7Player: " + ticket.get("owner").getAsJsonObject().get("username").getAsString() + "_" +
+                " §8▪ §7Player: " + ticket.get("owner").getAsJsonObject().get("username").getAsString() + "\n" +
                 " §8▪ §7Aperto il: " + createdOn + closedOn
         );
     }
